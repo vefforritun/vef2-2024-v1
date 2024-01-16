@@ -14,7 +14,7 @@
     {
       "home": {
         "name": "Fljótu fæturnir",
-        "score": 3
+        "score": -1
       },
       "away": {
         "name": "Dripplararnir",
@@ -28,7 +28,7 @@
       },
       "away": {
         "name": "Markaskorarnir",
-        "score": 3
+        "score": {}
       }
     },
     {

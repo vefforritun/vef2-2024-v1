@@ -13,12 +13,12 @@
       },
       {
         "home": {
-          "name": "Markaskorarnir",
+          "name": 4,
           "score": 4
         },
         "away": {
-          "name": "Skotföstu kempurnar",
-          "score": 5
+          "name": 5,
+          "score": "Skotföstu kempurnar"
         }
       },
       {

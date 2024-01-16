@@ -5,7 +5,7 @@
 - Upprifjun og notkun á verkfærum og tólum úr vefforritun 1.
 - Ósamstillt forritun með Node.js og notkun á módúlum.
 - Útbúa test með Jest og setja upp keyrslu á testum með GitHub Actions.
-- Setja upp vef á Netlify með tengingu við GitHub.
+- Vinnsla með gagnastrúktúr og staðfestingu á gögnum.
 
 ## Verkefnið
 
@@ -17,16 +17,15 @@ Skrifa skal allan kóða, ekki skal nota forritasöfn frá t.d. NPM.
 
 Undir möppunni `data/` eru JSON skrár með leikdögum sem heita allar `gameday-X.json` þar sem `X` er eitthvert gildi (alveg handahófskennt), formið er:
 
-- `date`, dagsetning leikja á ISO 8601 formi
-- `games`, fylki af leikjum
-  - `time`, tími leiks á ISO 8601 formi
-  - `home`, heimalið
-  - `away`, útilið
+- `date`, dagsetning leikja á ISO 8601 formi (t.d. `2024-01-01T00:00:00.000Z`), verður að vera til staðar annars eru gögn ólögleg
+- `games`, fylki af leikjum, verður að vera til staðar annars eru gögn ólögleg
+  - `home`, heimalið, ætti að vera hlutur, sjá að neðan, ef ekki skal sleppa færslu
+  - `away`, útilið, ætti að vera hlutur, sjá að neðan, ef ekki skal sleppa færslu
 
 Þar sem `home` og `away` eru hlutir með eftirfarandi gildum:
 
-- `name`, nafn liðs
-- `score`, skor liðs í leik
+- `name`, nafn liðs, ætti að vera strengur
+- `score`, skor liðs í leik, ætti að vera jákvæð heiltala
 
 Einnig er skrá `teams.json` sem inniheldur öll lögleg lið í deildinni.
 
@@ -34,7 +33,7 @@ Skrifa skal forrit sem les inn þessi gögn og varpar yfir í HTML skrár sem bi
 
 Ekki á að breyta skrám heldur nota þær nákvæmlega eins og þær eru.
 
-Athugið að gögnin eru ekki fullkomin, þau geta innihaldið villur. Ef villa er til staðar í gögnum (þ.e.a.s. gögn uppfylla ekki það sem skilgreint er að ofan) eða ef liðið er ekki skráð sem löglegt lið skal ekki birta þau gögn.
+Athugið að gögnin eru ekki fullkomin, þau geta innihaldið villur. Ef villa er til staðar í gögnum (þ.e.a.s. gögn uppfylla ekki það sem skilgreint er að ofan) eða ef liðið er ekki skráð sem löglegt lið skal ekki birta þau gögn, en önnur gögn í þeirri skrá skal birta.
 
 ### Birting gagna
 
@@ -42,10 +41,12 @@ Eftir lestur skal útbúa HTML skrár sem birta gögnin. Þær skulu vera í mö
 
 - `index.html`, forsíða sem hefur einhvern lýsingartexta (í versta falli `lorem ipsum` texta).
 - `leikir.html`, síða sem birtir alla leiki í deildinni, raðaða eftir dagsetningu leiks (elsta dagsetning efst).
-- `stada.html`, tafla með stöðu í deildinni, raðað eftir stöðu (flest stig efst) þar sem stig eru gefin:
-  - 3 stig fyrir sigur
-  - 1 stig fyrir jafntefli
-  - 0 stig fyrir tap
+- `stada.html`, tafla með stöðu í deildinni
+  - raðað eftir stöðu (flest stig efst) þar sem stig eru gefin:
+    - 3 stig fyrir sigur
+    - 1 stig fyrir jafntefli
+    - 0 stig fyrir tap
+  - eingöngu þarf að sýna nafn liðs og stig
 
 Þar sem gögn innan `dist/` möppu eru _afleidd_ frá því sem er í `data/` möppu skal **ekki** setja þær inn í Git og hunsa þær með `.gitignore` skrá (sem gefin er).
 
@@ -53,9 +54,11 @@ Eftir lestur skal útbúa HTML skrár sem birta gögnin. Þær skulu vera í mö
 
 Í verkefni skal skrifa test með [Jest](https://jestjs.io/) sem athugar hvort forritið virki eins og er skilgreint er að ofan.
 
-Allar skrár með kóða skulu hafa test og line coverage skal vera a.m.k. 50% í heildina. Þetta á við node.js kóða, ekki þarf að telja með þann kóða sem keyrður er úr CLI/gegnum `build` scriptu. Ekki er krafa um að skrifa test fyrir kóða á framenda.
+Allar skrár með kóða í `./src/lib` möppu skulu hafa test og line coverage skal vera a.m.k. 50% í heildina. Þetta á við node.js kóða, ekki þarf að telja með þann kóða sem keyrður er úr CLI/gegnum `build` scriptu. Ekki er krafa um að skrifa test fyrir kóða á framenda.
 
 Þar sem coverage gögn eru skrifuð í `coverage/` möppu skal hunsa þær með `.gitignore` skrá.
+
+Í `package.json` er skilgreint gildi sem skilgreinir að jest eigi að telja til coverage allt sem er í `./src/lib` möppunni.
 
 Test skulu keyra með:
 
@@ -69,7 +72,15 @@ Test skulu keyra með:
 > yarn test --coverage
 ```
 
-Setja skal upp keyrslu á testum með [GitHub Actions](https://docs.github.com/en/actions) þannig að þau keyra sjálfkrafa þegar commitað er á GitHub á `main` branch, eða í pull requestum.
+Meðan verið er að þróa forrit er hægt að keyra jest í _watch mode_ með því að setja `--watch`:
+
+```bash
+> npm test -- --watch
+# og með coverage
+> npm test -- --watch --coverage
+```
+
+Setja skal upp keyrslu á testum með [GitHub Actions](https://docs.github.com/en/actions) (skilgreining á _workflow_ er gefið) þannig að þau keyra sjálfkrafa þegar commitað er á GitHub á `main` branch, eða í pull requestum.
 
 Gefin er skrá til að vinna með skrár og próf fyrir það, gefið er vinnuflæði fyrir GitHub til að keyra lint og test með hverju commit.
 
@@ -85,7 +96,7 @@ Nota skal node 20.
 
 Nota skal NPM eða Yarn til að sækja og keyra tól.
 
-Aðeins skal nota ECMAScript modules (ESM) og ekki CommonJS.
+Aðeins skal nota ECMAScript modules (ESM, `import` og `export`) og ekki CommonJS (`require`).
 
 Uppsett er `package.json` skrá með `eslint` og `stylelint` uppsett.
 
@@ -93,7 +104,7 @@ Breyta má út frá reglum sem eru settar upp í `eslint` og `stylelint` með þ
 
 ### GitHub & Netlify
 
-Setja skal upp vefinn með niðurstöðum á Netlify tengt við GitHub.
+Setja skal upp vefinn með niðurstöðum á Netlify tengt við GitHub. Við hvert commit ætti GitHub action að keyra lint og test, Netlify ætti að keyra `build` scriptu og birta vefinn.
 
 ## Mat
 
@@ -133,8 +144,9 @@ Sett verða fyrir ([sjá nánar í kynningu á áfanga](https://github.com/veffo
 
 ---
 
-> Útgáfa 0.1
+> Útgáfa 0.2
 
-| Útgáfa | Breyting      |
-| ------ | ------------- |
-| 0.1    | Fyrsta útgáfa |
+| Útgáfa | Breyting                                     |
+| ------ | -------------------------------------------- |
+| 0.1    | Fyrsta útgáfa                                |
+| 0.2    | Nánari lýsing á verkefni, uppfæra gefin gögn |
