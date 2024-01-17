@@ -33,24 +33,36 @@ export async function createDirIfNotExists(dir) {
  */
 export async function readFilesFromDir(dir) {
   let files = [];
+  // console.log('dir', dir);
   try {
     files = await readdir(dir);
   } catch (e) {
+    console.error('error', e);
     return [];
   }
 
   const mapped = files.map(async (file) => {
     const path = join(dir, file);
+    // console.log('mapping', file, path);
     const info = await stat(path);
+    // console.log('info', info);
 
     if (info.isDirectory()) {
+      // console.log('is dir!');
       return null;
     }
 
-    return path;
+    if (info.isFile()) {
+      // console.log('is file!');
+      return path;
+    }
+
+    return null;
   });
 
+  // console.log('resolving promises...');
   const resolved = await Promise.all(mapped);
+  // console.log('resolved!', resolved);
 
   // Remove any directories that will be represented by `null`
   const filtered = [];
@@ -59,6 +71,7 @@ export async function readFilesFromDir(dir) {
       filtered.push(file);
     }
   }
+  // console.log('filtered', filtered);
 
   return filtered;
 }

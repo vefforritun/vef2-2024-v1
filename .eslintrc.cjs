@@ -30,5 +30,6 @@ module.exports = {
         ignoreTemplateLiterals: true,
       },
     ],
+    'no-continue': 0,
   },
 };
