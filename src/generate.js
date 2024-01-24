@@ -26,6 +26,11 @@ async function main() {
     }
     const fileContents = await readFile(file);
 
+    console.info('parsea skrá', file);
+    if (!fileContents) {
+      continue;
+    }
+
     const parsed = parseGameday(fileContents);
 
     data.push(parsed);
