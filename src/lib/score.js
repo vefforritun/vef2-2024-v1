@@ -1,4 +1,3 @@
-
-export function calculateStandings() {
-  return 0;
+export function calculateStandings(data) {
+  return data.length;
 }
