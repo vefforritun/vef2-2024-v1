@@ -138,15 +138,17 @@ Ef stórt mállíkan (LLM, „gervigreind“, t.d. ChatGTP) er notað til að sk
 
 Sett verða fyrir ([sjá nánar í kynningu á áfanga](https://github.com/vefforritun/vef2-2024/blob/main/namsefni/01.kynning/1.kynning.md)):
 
-- fimm minni verkefni þar sem átta bestu gilda 10% hvert, samtals 50% af lokaeinkunn.
-- tvö hópverkefni þar sem hvort um sig gildir 10%, samtals 20% af lokaeinkunn.
+- fimm minni sem gilda 10% hvert, samtals 50% af lokaeinkunn.
+- tvö hópverkefni þar sem hvort um sig gildir 20%, samtals 40% af lokaeinkunn.
 - einstaklingsverkefni sem gildir 10–20% af lokaeinkunn.
 
 ---
 
-> Útgáfa 0.2
+> Útgáfa 0.4
 
 | Útgáfa | Breyting                                     |
 | ------ | -------------------------------------------- |
 | 0.1    | Fyrsta útgáfa                                |
 | 0.2    | Nánari lýsing á verkefni, uppfæra gefin gögn |
+| 0.3    | Meira af grunn gefið í fyrirlestrum 2 og 3   |
+| 0.4    | Texti um einkunn lagaður                     |
