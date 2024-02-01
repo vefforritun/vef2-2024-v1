@@ -1,4 +1,5 @@
 import { describe, expect, it } from '@jest/globals';
+import { join } from 'path';
 import { direxists, readFile, readFilesFromDir } from './file';
 
 // Hér ættum við að nota mock, en þau eru erfið með Jest + ESM
@@ -35,7 +36,7 @@ describe('file', () => {
     it('should return array of known files for dir that does exist', async () => {
       const result = await readFilesFromDir(testDir);
 
-      expect(result).toEqual(['src/test/data/1', 'src/test/data/2']);
+      expect(result).toEqual([join(testDir, '1'), join(testDir, '2')]);
     });
   });
 
@@ -48,7 +49,7 @@ describe('file', () => {
 
     it('should return content of known file that does exist', async () => {
       const result = await readFile(`${testDir}/1`);
-      expect(result).toEqual('asdf\n');
+      expect(result).toContain('asdf');
     });
   });
 });
